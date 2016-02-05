@@ -1,4 +1,4 @@
-Frontend Nanodegree: FeedReader
+# Frontend Nanodegree: FeedReader
 
 To run this project,
 1. Download or fork the application from: https://github.com/meckmeier/frontend-nanodegree-feedreader
