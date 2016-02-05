@@ -9,19 +9,20 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+  /* This is our first test suite - a test suite just contains
+  * a related set of tests. This suite is all about the RSS
+  * feeds definitions, the allFeeds variable in our application.
+  */
   describe('RSS Feeds', function() {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         * 1 spec, 1 failure: expected 0 not to be zero.
-         */
+    /* This is our first test - it tests to make sure that the
+     * allFeeds variable has been defined and that it is not
+     * empty. Experiment with this before you get started on
+     * the rest of this project. What happens when you change
+     * allFeeds in app.js to be an empty array and refresh the
+     * page?
+     * 1 spec, 1 failure: expected 0 not to be zero.
+     */
+
     it('are defined', function() {
       expect(allFeeds).toBeDefined();
       expect(allFeeds.length).not.toBe(0);
@@ -29,14 +30,14 @@ $(function() {
 
     it('have associated urls', function() {
       for (i=0; i < allFeeds.length; i++){
-        expect(allFeeds[i].url).toBeDefined;
+        expect(allFeeds[i].url).toBeDefined();
         expect(allFeeds[i].url.length).not.toBe(0);
       }
     });
 
     it('have names', function() {
       for (i=0; i < allFeeds.length; i++) {
-        expect(allFeeds[i].name).toBeDefined;
+        expect(allFeeds[i].name).toBeDefined();
         expect(allFeeds[i].name.length).not.toBe(0);
       }
     });
@@ -46,6 +47,7 @@ $(function() {
     it('is initially hidden',function(){
       expect($('body').hasClass('menu-hidden')).toBe(true);
     });
+
     it('visibility changes when clicked', function(){
       expect($('body').hasClass('menu-hidden')).toBe(true);
       $('.menu-icon-link').click();
@@ -54,25 +56,35 @@ $(function() {
       expect($('body').hasClass('menu-hidden')).toBe(true);
     })
   });
+
   describe('Initial Entries', function() {
       beforeEach(function(done){
          loadFeed(0,done);
       });
+
       it('return at least one row', function(done){
+        //console.log($(".feed .entry").length);
         expect($(".feed .entry").length).not.toBe(0);
         done();
       });
   });
+
   describe('New Feed Selection', function(){
-      beforeEach(function(done){
-         loadFeed(0,done);
-      });
-    it('changes after load',function(){
+    it('changes after load',function(done){
+      /*note that done is passed to IT's anonymouse function*/
       var startState = $('.feed').html();
-      loadFeed(1,function(done){
-        loadFeed(1,done);
+      var endState=$('.feed').html();
+      //console.log(startState);
+      loadFeed(1, function(){
+        //to get the test to work you have to perform it inside this function
+        //where you know that the second load has completed.
+        endState = $('.feed').html();
+        expect(endState == startState).toBe(false);
+        done();
       });
-      expect($('.feed').html != startState).toBe(true);
+      //console.log('This log will NOT wait for asynch function');
+
+
     });
  });
 });
