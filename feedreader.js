@@ -62,27 +62,29 @@ $(function() {
          loadFeed(0,done);
       });
 
-      it('return at least one row', function(){
-        expect($(".feed .entry").length).toBeGreaterThan(0);
-      //i finally got it -- the reason i don't need a done was because of
-      //BeforeEach took care of completing the async call! thanks for the pointers!
+      it('return at least one row', function(done){
+        //console.log($(".feed .entry").length);
+        expect($(".feed .entry").length).not.toBe(0);
+        done();
       });
   });
 
   describe('New Feed Selection', function(){
     it('changes after load',function(done){
-      var startState = '';
-      var endState =''
+      /*note that done is passed to IT's anonymouse function*/
+      var startState = $('.feed').html();
+      var endState=$('.feed').html();
+      //console.log(startState);
       loadFeed(1, function(){
-        startState = $('.feed').html();
-        loadFeed(2, function(){
-          //to get the test to work you have to perform it inside this function
-          //where you know that the second load has completed.
-          endState = $('.feed').html();
-          expect(endState).not.toEqual(startState);
-          done();
-        });
+        //to get the test to work you have to perform it inside this function
+        //where you know that the second load has completed.
+        endState = $('.feed').html();
+        expect(endState == startState).toBe(false);
+        done();
       });
+      //console.log('This log will NOT wait for asynch function');
+
+
     });
  });
 });
